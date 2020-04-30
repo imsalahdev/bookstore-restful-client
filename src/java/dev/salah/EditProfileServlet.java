@@ -25,7 +25,12 @@ public class EditProfileServlet extends HttpServlet {
         User user = (User) request.getSession().getAttribute("user");
         user.setUsername(request.getParameter("username"));
         user.setEmail(request.getParameter("email"));
-        user.setPassword(request.getParameter("password"));
+        
+        String prevPassword = user.getPassword();
+        String newPassword = request.getParameter("password");
+        if (!prevPassword.equals(newPassword)) {
+            user.setPassword(Utils.hashPassword(newPassword));
+        }
         
         InputStream inputStream = request.getPart("photo").getInputStream();
         byte[] photoBytes = new byte[inputStream.available()];

@@ -3,7 +3,6 @@ package dev.salah;
 import dev.salah.beans.User;
 import dev.salah.services.UserWS;
 import java.io.IOException;
-import java.io.InputStream;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +17,12 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
-        request.getSession().setAttribute("user", UserWS.read(email, password));
-        response.sendRedirect(request.getServletContext().getContextPath());
+        User user = UserWS.readByEmail(email);
+        if (user != null && Utils.verifyPassword(password, user.getPassword())) {
+            request.getSession().setAttribute("user", user);
+            response.sendRedirect(request.getServletContext().getContextPath());
+        } else {
+            response.sendRedirect(request.getServletContext().getContextPath() + "/Home/Login.jsp");
+        }
     }
 }

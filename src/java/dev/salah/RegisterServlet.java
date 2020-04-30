@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 @MultipartConfig
 @WebServlet(name = "RegisterServlet", urlPatterns = {"/Register"})
 public class RegisterServlet extends HttpServlet {
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -22,7 +22,7 @@ public class RegisterServlet extends HttpServlet {
         User user = new User();
         user.setUsername(request.getParameter("username"));
         user.setEmail(request.getParameter("email"));
-        user.setPassword(request.getParameter("password"));
+        user.setPassword(Utils.hashPassword(request.getParameter("password")));
         
         InputStream inputStream = request.getPart("photo").getInputStream();
         byte[] photoBytes = new byte[inputStream.available()];
