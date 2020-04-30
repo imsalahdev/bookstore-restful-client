@@ -1,5 +1,6 @@
 package dev.salah.servlets;
 
+import dev.salah.Utils;
 import dev.salah.beans.Book;
 import dev.salah.beans.Category;
 import dev.salah.services.BookWS;
@@ -33,10 +34,7 @@ public class BooksServlet extends HttpServlet {
 
                 book.setPrice(Double.valueOf(request.getParameter("price")));
 
-                InputStream inputStream = request.getPart("thumbnail").getInputStream();
-                byte[] thumbnailBytes = new byte[inputStream.available()];
-                inputStream.read(thumbnailBytes);
-                book.setThumbnail(thumbnailBytes);
+                book.setThumbnail(Utils.resizeImage(request.getPart("thumbnail").getInputStream()));
 
                 book.setCount(Integer.valueOf(request.getParameter("count")));
 
@@ -51,9 +49,7 @@ public class BooksServlet extends HttpServlet {
 
                 book.setPrice(Double.valueOf(request.getParameter("price")));
 
-                InputStream inputStream = request.getPart("thumbnail").getInputStream();
-                byte[] thumbnailBytes = new byte[inputStream.available()];
-                inputStream.read(thumbnailBytes);
+                byte[] thumbnailBytes = Utils.resizeImage(request.getPart("thumbnail").getInputStream());
                 if (thumbnailBytes.length != 0) {
                     book.setThumbnail(thumbnailBytes);
                 }
