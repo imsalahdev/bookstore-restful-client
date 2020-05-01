@@ -1,3 +1,5 @@
+<%@page import="dev.salah.services.CartWS"%>
+<%@page import="dev.salah.beans.User"%>
 <%@page import="java.util.Base64"%>
 <%@page import="dev.salah.services.BookWS"%>
 <%@page import="dev.salah.services.CategoryWS"%>
@@ -7,15 +9,16 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<%!
+<%!    
     String title = "Cart";
-
+    
     String isActive(String name) {
         return title == name ? "active" : "";
     }
 %>
 <%
     String id = request.getParameter("id");
+    User user = (User) request.getSession().getAttribute("user");
     if (id != null) {
         List<String> cart = (List<String>) session.getAttribute("cart");
         if (cart == null) {
@@ -23,15 +26,19 @@
         }
         String action = request.getParameter("action");
         if (action.equals("add")) {
-
+            
             if (!cart.contains(id)) {
                 cart.add(id);
             }
-
+            
         } else if (action.equals("remove")) {
             cart.remove(id);
+            CartWS.removeByCart(user.getId(), Integer.valueOf(id));
         }
         session.setAttribute("cart", cart);
+        if (user != null) {
+            CartWS.create(user, cart);
+        }
     }
 %>
 <!DOCTYPE html>
@@ -39,7 +46,7 @@
     <head>
         <link rel="shortcut icon" type="image/png" href="${pageContext.servletContext.contextPath}/assets/favicon.png" />
         <meta name="viewport" content="width=device-width" />
-        <title><%= title %></title>
+        <title><%= title%></title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
         <link rel="stylesheet" href="../styles/Home/Cart.css" />
     </head>

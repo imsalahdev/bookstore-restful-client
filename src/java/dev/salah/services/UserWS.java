@@ -32,7 +32,6 @@ public class UserWS {
     }
 
     public static User readByEmail(String email) {
-        System.out.println(email);
         return builder.fromJson(client.findByEmail(String.class, email), User.class);
     }
 
