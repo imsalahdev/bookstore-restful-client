@@ -1,3 +1,6 @@
+<%@page import="dev.salah.ws.User"%>
+<%@page import="dev.salah.Utils"%>
+<% Utils.markAsPrivate(request, response, true);%>
 <%@page import="dev.salah.services.UserWS"%>
 <%@page import="dev.salah.services.CategoryWS"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -17,7 +20,7 @@
     <head>
         <link rel="shortcut icon" type="image/png" href="${pageContext.servletContext.contextPath}/assets/favicon.png" />
         <meta name="viewport" content="width=device-width" />
-        <title><%= title %></title>
+        <title><%= title%></title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
         <link rel="stylesheet" href="../styles/Users/Edit.css" />
     </head>
@@ -48,133 +51,125 @@
                             </div>
                         </li>
                     </ul>
-                    <c:if test="${user != null && user.isAdmin}">
-                        <ul class="navbar-nav mr-1">
-                            <li class="nav-item">
-                                <a class="nav-link <%= isActive("Users Dashboard")%>" href="${pageContext.servletContext.contextPath}/Users">
-                                    <%@include file="/Icons/_userIcon.jsp" %>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link <%= isActive("Books Dashboard")%>" href="${pageContext.servletContext.contextPath}/Books">
-                                    <%@include file="/Icons/_bookIcon.jsp" %>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link <%= isActive("Categories Dashboard")%>" href="${pageContext.servletContext.contextPath}/Categories">
-                                    <%@include file="/Icons/_categoryIcon.jsp" %>
-                                </a>
-                            </li>
-                        </ul>
-                    </c:if>
+                    <c:if test="${ user != null && user.role == 'admin' }">
+                                   <ul class="navbar-nav mr-1">
+                                   <li class="nav-item">
+                                   <a class="nav-link <%= isActive("Users Dashboard")%>" href="${pageContext.servletContext.contextPath}/Users">
+                                   <%@include file="/Icons/_userIcon.jsp" %>
+                                   </a>
+                                   </li>
+                                   <li class="nav-item">
+                                   <a class="nav-link <%= isActive("Books Dashboard")%>" href="${pageContext.servletContext.contextPath}/Books">
+                                   <%@include file="/Icons/_bookIcon.jsp" %>
+                                   </a>
+                                   </li>
+                                   <li class="nav-item">
+                                   <a class="nav-link <%= isActive("Categories Dashboard")%>" href="${pageContext.servletContext.contextPath}/Categories">
+                                   <%@include file="/Icons/_categoryIcon.jsp" %>
+                                   </a>
+                                   </li>
+                                   </ul>
+                                   </c:if>
 
-                    <form class="custom-form custom-form-inline" action="${pageContext.servletContext.contextPath}/Home/Search.jsp" autocomplete="off">
-                        <input class="custom-form-input" type="search" placeholder="Search" name="q" required>
-                        <button class="custom-form-button" type="submit">Search</button>
-                    </form>
-                    <ul class="navbar-nav mr-2">
-                        <li class="nav-item <%= isActive("Cart")%>">
-                            <a class="nav-link cart" href="${pageContext.servletContext.contextPath}/Home/Cart.jsp">
-                                <div class="svg">
-                                    <%@include file="/Icons/_cartIcon.jsp" %>
-                                    <c:if test="${cart != null && cart.size() != 0}">
-                                        <div class="tracker">${cart.size()}</div>
-                                    </c:if>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                    <c:choose>
-                        <c:when test="${user != null}">
-                            <ul class="navbar-nav mr-1">
-                                <li class="nav-item flex-username">
-                                    <a class="nav-link" href="${pageContext.servletContext.contextPath}/Home/ProfileDetails.jsp">${user.username}</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="${pageContext.servletContext.contextPath}/Home/Logout.jsp"><%@include file="/Icons/_logoutIcon.jsp" %></a>
-                                </li>
-                            </ul>
-                        </c:when>
-                        <c:otherwise>
-                            <ul class="navbar-nav">
-                                <li class="nav-item <%= isActive("Login")%>">
-                                    <a class="nav-link" href="${pageContext.servletContext.contextPath}/Home/Login.jsp">Login</a>
-                                </li>
-                                <li class="nav-item <%= isActive("Register")%>">
-                                    <a class="nav-link" href="${pageContext.servletContext.contextPath}/Home/Register.jsp">Register</a>
-                                </li>
-                            </ul>
-                        </c:otherwise>
-                    </c:choose>
-                </div>
-            </nav>
-        </header>
-        <main>
-            <div class="container">
-                <c:set var="user" value="<%= UserWS.read(request.getParameter("id")) %>" />
-                <form id="edit-user-form" class="custom-form" method="POST" enctype="multipart/form-data" action="${pageContext.servletContext.contextPath}/users">
-                    <h2 class="custom-form-title">Edit User</h2>
-                    
-                    <input type="hidden" name="method" value="PUT">
-                    <input type="hidden" name="id" value="${user.id}">
-                    <input class="custom-form-input" type="text" name="username" value="${user.username}" placeholder="Username" required />
-                    <input class="custom-form-input" type="email" name="email" value="${user.email}" placeholder="Email" required />
-                    <input class="custom-form-input" type="password" name="password" value="${user.password}" placeholder="Password" required />
+                                   <form class="custom-form custom-form-inline" action="${pageContext.servletContext.contextPath}/Home/Search.jsp" autocomplete="off">
+                                   <input class="custom-form-input" type="search" placeholder="Search" name="q" required>
+                                   <button class="custom-form-button" type="submit">Search</button>
+                                   </form>
+                                   <ul class="navbar-nav mr-2">
+                                   <li class="nav-item <%= isActive("Cart")%>">
+                                   <a class="nav-link cart" href="${pageContext.servletContext.contextPath}/Home/Cart.jsp">
+                                   <div class="svg">
+                                   <%@include file="/Icons/_cartIcon.jsp" %>
+                                   <c:if test="${cart != null && cart.size() != 0}">
+                                   <div class="tracker">${cart.size()}</div>
+                                   </c:if>
+                                   </div>
+                                   </a>
+                                   </li>
+                                   </ul>
+                                   <c:choose>
+                                   <c:when test="${user != null}">
+                                   <ul class="navbar-nav mr-1">
+                                   <li class="nav-item flex-username">
+                                   <a class="nav-link" href="${pageContext.servletContext.contextPath}/Home/ProfileDetails.jsp">${user.username}</a>
+                                   </li>
+                                   <li class="nav-item">
+                                   <a class="nav-link" href="${pageContext.servletContext.contextPath}/Home/Logout.jsp"><%@include file="/Icons/_logoutIcon.jsp" %></a>
+                                   </li>
+                                   </ul>
+                                   </c:when>
+                                   <c:otherwise>
+                                   <ul class="navbar-nav">
+                                   <li class="nav-item <%= isActive("Login")%>">
+                                   <a class="nav-link" href="${pageContext.servletContext.contextPath}/Home/Login.jsp">Login</a>
+                                   </li>
+                                   <li class="nav-item <%= isActive("Register")%>">
+                                   <a class="nav-link" href="${pageContext.servletContext.contextPath}/Home/Register.jsp">Register</a>
+                                   </li>
+                                   </ul>
+                                   </c:otherwise>
+                                   </c:choose>
+                                   </div>
+                                   </nav>
+                                   </header>
+                                   <main>
+                                   <div class="container">
+                                   <c:set var="user" value="<%= UserWS.read(request.getParameter("id"))%>" />
+                                   <form id="edit-user-form" class="custom-form" method="POST" enctype="multipart/form-data" action="${pageContext.servletContext.contextPath}/users">
+                                   <h2 class="custom-form-title">Edit User</h2>
 
-                    <div class="custom-form-group">
-                        <div class="custom-form-group-title">IsAdmin</div>
-                        <div class="custom-form-checkbox">
-                            <input type="checkbox" name="isAdmin" ${user.isAdmin ? "checked" : ""}/>
-                            <div class="toggler"></div>
-                        </div>
-                    </div>
+                                   <input type="hidden" name="method" value="PUT">
+                                   <input type="hidden" name="id" value="${user.id}">
+                                   <input class="custom-form-input" type="text" name="username" value="${user.username}" placeholder="Username" required />
+                                   <input class="custom-form-input" type="email" name="email" value="${user.email}" placeholder="Email" required />
+                                   <input class="custom-form-input" type="password" name="password" value="${user.password}" placeholder="Password" required />
+                                   <input class="custom-form-input" type="text" name="role" value="${user.role}" placeholder="Role" required />
+                                   <input type="file" name="photo" class="custom-form-file-input" />
+                                   <button class="custom-form-button">Edit</button>
+                                   <a class="custom-form-bottom-link" href="${pageContext.servletContext.contextPath}/Users">Go Back</a>
+                                   </form>
+                                   </div>
+                                   </main>
+                                   <footer class="page-footer font-small blue pt-4">
+                                   <div class="container-fluid text-center text-md-left">
+                                   <div class="row">
+                                   <div class="col-md-6 mt-md-0 mt-3">
+                                   <h5 class="text-uppercase">Content</h5>
+                                   <p>Our aim is to provide the best books and customer service. With an experience of 15 years and more we can guarantee that we will make you happy.</p>
 
-                    <input type="file" name="photo" class="custom-form-file-input" />
-                    <button class="custom-form-button">Edit</button>
-                    <a class="custom-form-bottom-link" href="${pageContext.servletContext.contextPath}/Users">Go Back</a>
-                </form>
-            </div>
-        </main>
-        <footer class="page-footer font-small blue pt-4">
-            <div class="container-fluid text-center text-md-left">
-                <div class="row">
-                    <div class="col-md-6 mt-md-0 mt-3">
-                        <h5 class="text-uppercase">Content</h5>
-                        <p>Our aim is to provide the best books and customer service. With an experience of 15 years and more we can guarantee that we will make you happy.</p>
+                                   </div>
+                                   <hr class="clearfix w-100 d-md-none pb-3">
+                                   <div class="col-md-3 mb-md-0 mb-3">
+                                   <h5 class="text-uppercase">NAVIGATE</h5>
 
-                    </div>
-                    <hr class="clearfix w-100 d-md-none pb-3">
-                    <div class="col-md-3 mb-md-0 mb-3">
-                        <h5 class="text-uppercase">NAVIGATE</h5>
+                                   <ul class="list-unstyled">
+                                   <li>
+                                   <a href="${pageContext.servletContext.contextPath}/">Home</a>
+                                   </li>
+                                   <li>
+                                   <a href="${pageContext.servletContext.contextPath}/Home/Books.jsp">Books</a>
+                                   </li>
+                                   <li>
+                                   <a href="${pageContext.servletContext.contextPath}/Home/Cart.jsp">Cart</a>
+                                   </li>
+                                   </ul>
 
-                        <ul class="list-unstyled">
-                            <li>
-                                <a href="${pageContext.servletContext.contextPath}/">Home</a>
-                            </li>
-                            <li>
-                                <a href="${pageContext.servletContext.contextPath}/Home/Books.jsp">Books</a>
-                            </li>
-                            <li>
-                                <a href="${pageContext.servletContext.contextPath}/Home/Cart.jsp">Cart</a>
-                            </li>
-                        </ul>
-
-                    </div>
-                    <div class="col-md-3 mb-md-0 mb-3">
-                        <h5 class="text-uppercase">Contact</h5>
-                        <div>Email: lachkar.se@gmail.com</div>
-                        <div>Tel: 0693801823</div>
-                        Website: <a href="https://salah.dev/" target="_blank">https://salah.dev/</a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-copyright text-center py-3">
-                <a href="${pageContext.servletContext.contextPath}"> Book Store</a> © 2019
-            </div>
-        </footer>
-        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    </body>
-</html>
+                                   </div>
+                                   <div class="col-md-3 mb-md-0 mb-3">
+                                   <h5 class="text-uppercase">Contact</h5>
+                                   <div>Email: lachkar.se@gmail.com</div>
+                                   <div>Tel: 0693801823</div>
+                                   Website: <a href="https://salah.dev/" target="_blank">https://salah.dev/</a>
+                                   </div>
+                                   </div>
+                                   </div>
+                                   <div class="footer-copyright text-center py-3">
+                                   <a href="${pageContext.servletContext.contextPath}"> Book Store</a> © 2019
+                                   </div>
+                                   </footer>
+                                   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"></script>
+                                   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+                                   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+                                   </body>
+                                   </html>
 

@@ -1,7 +1,7 @@
 package dev.salah.servlets;
 
-import dev.salah.beans.Category;
 import dev.salah.services.CategoryWS;
+import dev.salah.ws.Category;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;

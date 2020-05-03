@@ -1,10 +1,9 @@
 package dev.salah.servlets;
 
 import dev.salah.Utils;
-import dev.salah.beans.User;
 import dev.salah.services.UserWS;
+import dev.salah.ws.User;
 import java.io.IOException;
-import java.io.InputStream;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -29,7 +28,7 @@ public class UsersServlet extends HttpServlet {
                 user.setUsername(request.getParameter("username"));
                 user.setEmail(request.getParameter("email"));
                 user.setPassword(Utils.hashPassword(request.getParameter("password")));
-                user.setIsAdmin(request.getParameterValues("isAdmin") != null);
+                user.setRole(request.getParameter("role"));
                 user.setPhoto(Utils.resizeImage(request.getPart("photo").getInputStream()));
                 UserWS.create(user);
             } else {
@@ -41,10 +40,10 @@ public class UsersServlet extends HttpServlet {
                 if (!prevPassword.equals(newPassword)) {
                     user.setPassword(Utils.hashPassword(newPassword));
                 }
-                user.setIsAdmin(request.getParameterValues("isAdmin") != null);
+                user.setRole(request.getParameter("role"));
 
                 byte[] photoBytes = Utils.resizeImage(request.getPart("photo").getInputStream());
-                if (photoBytes.length != 0) {
+                if (photoBytes != null) {
                     user.setPhoto(photoBytes);
                 }
 

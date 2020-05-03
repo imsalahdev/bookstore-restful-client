@@ -1,5 +1,8 @@
+<%@page import="dev.salah.ws.User"%>
+<%@page import="dev.salah.Utils"%>
+<% Utils.markAsPrivate(request, response, true); %>
 <%@page import="java.util.Base64"%>
-<%@page import="dev.salah.beans.User"%>
+<%@page import="dev.salah.ws.User"%>
 <%@page import="dev.salah.services.UserWS"%>
 <%@page import="dev.salah.services.CategoryWS"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -50,7 +53,7 @@
                             </div>
                         </li>
                     </ul>
-                    <c:if test="${user != null && user.isAdmin}">
+                    <c:if test="${ user != null && user.role == 'admin' }">
                         <ul class="navbar-nav mr-1">
                             <li class="nav-item">
                                 <a class="nav-link <%= isActive("Users Dashboard")%>" href="${pageContext.servletContext.contextPath}/Users">
@@ -132,9 +135,9 @@
                     <br />
                     <div class="Value">${user.password}</div>
                     <br />
-                    <div class="Name">IsAdmin</div>
+                    <div class="Name">Role</div>
                     <br />
-                    <div class="Value">${user.isAdmin}</div>
+                    <div class="Value">${user.role}</div>
                     <br />
 
                     <div class="Value Button Form-Button">

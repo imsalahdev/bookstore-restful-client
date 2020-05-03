@@ -1,3 +1,4 @@
+<%@page import="dev.salah.ws.User"%>
 <%@page import="java.util.Base64"%>
 <%@page import="dev.salah.services.BookWS"%>
 <%@page import="dev.salah.services.CategoryWS"%>
@@ -48,7 +49,7 @@
                             </div>
                         </li>
                     </ul>
-                    <c:if test="${user != null && user.isAdmin}">
+                    <c:if test="${ user != null && user.role == 'admin' }">
                         <ul class="navbar-nav mr-1">
                             <li class="nav-item">
                                 <a class="nav-link <%= isActive("Users Dashboard")%>" href="${pageContext.servletContext.contextPath}/Users">

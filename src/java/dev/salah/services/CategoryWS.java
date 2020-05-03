@@ -1,6 +1,6 @@
 package dev.salah.services;
 
-import dev.salah.beans.Category;
+import dev.salah.ws.Category;
 import jakarta.json.bind.*;
 import java.util.ArrayList;
 import java.util.List;

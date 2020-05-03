@@ -1,4 +1,4 @@
-package dev.salah.beans;
+package dev.salah.ws;
 
 public class User {
 
@@ -6,9 +6,9 @@ public class User {
     private String username;
     private String email;
     private String password;
-    private Boolean isAdmin;
+    private String role;
     private byte[] photo;
-    
+
     public Integer getId() {
         return id;
     }
@@ -29,7 +29,6 @@ public class User {
         return email;
     }
 
-    
     public void setEmail(String email) {
         this.email = email;
     }
@@ -42,12 +41,12 @@ public class User {
         this.password = password;
     }
 
-    public Boolean getIsAdmin() {
-        return isAdmin;
+    public String getRole() {
+        return role;
     }
 
-    public void setIsAdmin(Boolean isAdmin) {
-        this.isAdmin = isAdmin;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public byte[] getPhoto() {

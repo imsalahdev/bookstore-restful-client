@@ -1,3 +1,5 @@
+<%@page import="dev.salah.ws.User"%>
+<%@page import="dev.salah.Utils"%>
 <%@page import="java.util.Base64"%>
 <%@page import="dev.salah.services.BookWS"%>
 <%@page import="dev.salah.services.CategoryWS"%>
@@ -7,10 +9,19 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
 <%!
-    String title = "Books";
+    String title;
 
     String isActive(String name) {
         return title == name ? "active" : "";
+    }
+%>
+
+<%
+    final String cid = request.getParameter("categoryID");
+    if (cid != null) {
+        title = "Books - " + CategoryWS.read(cid).getName();
+    } else {
+        title = "Books";
     }
 %>
 
@@ -19,7 +30,7 @@
     <head>
         <link rel="shortcut icon" type="image/png" href="${pageContext.servletContext.contextPath}/assets/favicon.png" />
         <meta name="viewport" content="width=device-width" />
-        <title><%= title %></title>
+        <title><%= title%></title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
         <link rel="stylesheet" href="../styles/Home/Books.css" />
     </head>
@@ -50,7 +61,7 @@
                             </div>
                         </li>
                     </ul>
-                    <c:if test="${user != null && user.isAdmin}">
+                    <c:if test="${ user != null && user.role == 'admin' }">
                         <ul class="navbar-nav mr-1">
                             <li class="nav-item">
                                 <a class="nav-link <%= isActive("Users Dashboard")%>" href="${pageContext.servletContext.contextPath}/Users">

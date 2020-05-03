@@ -1,5 +1,6 @@
+<%@page import="dev.salah.ws.User"%>
 <%@page import="dev.salah.services.CartWS"%>
-<%@page import="dev.salah.beans.User"%>
+<%@page import="dev.salah.ws.User"%>
 <%@page import="java.util.Base64"%>
 <%@page import="dev.salah.services.BookWS"%>
 <%@page import="dev.salah.services.CategoryWS"%>
@@ -9,9 +10,9 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<%!    
+<%!
     String title = "Cart";
-    
+
     String isActive(String name) {
         return title == name ? "active" : "";
     }
@@ -26,14 +27,16 @@
         }
         String action = request.getParameter("action");
         if (action.equals("add")) {
-            
+
             if (!cart.contains(id)) {
                 cart.add(id);
             }
-            
+
         } else if (action.equals("remove")) {
             cart.remove(id);
-            CartWS.removeByCart(user.getId(), Integer.valueOf(id));
+            if (user != null) {
+                CartWS.removeByCart(user.getId(), Integer.valueOf(id));
+            }
         }
         session.setAttribute("cart", cart);
         if (user != null) {
@@ -76,7 +79,7 @@
                             </div>
                         </li>
                     </ul>
-                    <c:if test="${user != null && user.isAdmin}">
+                    <c:if test="${ user != null && user.role == 'admin' }">
                         <ul class="navbar-nav mr-1">
                             <li class="nav-item">
                                 <a class="nav-link <%= isActive("Users Dashboard")%>" href="${pageContext.servletContext.contextPath}/Users">

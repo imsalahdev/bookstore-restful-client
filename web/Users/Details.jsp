@@ -1,4 +1,7 @@
-<%@page import="dev.salah.beans.User"%>
+<%@page import="dev.salah.ws.User"%>
+<%@page import="dev.salah.Utils"%>
+<% Utils.markAsPrivate(request, response, true);%>
+<%@page import="dev.salah.ws.User"%>
 <%@page import="java.util.Base64"%>
 <%@page import="dev.salah.services.UserWS"%>
 <%@page import="dev.salah.services.CategoryWS"%>
@@ -19,7 +22,7 @@
     <head>
         <link rel="shortcut icon" type="image/png" href="${pageContext.servletContext.contextPath}/assets/favicon.png" />
         <meta name="viewport" content="width=device-width" />
-        <title><%= title %></title>
+        <title><%= title%></title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
         <link rel="stylesheet" href="../styles/Users/Details.css" />
     </head>
@@ -50,7 +53,7 @@
                             </div>
                         </li>
                     </ul>
-                    <c:if test="${user != null && user.isAdmin}">
+                    <c:if test="${ user != null && user.role == 'admin' }">
                         <ul class="navbar-nav mr-1">
                             <li class="nav-item">
                                 <a class="nav-link <%= isActive("Users Dashboard")%>" href="${pageContext.servletContext.contextPath}/Users">
@@ -130,9 +133,9 @@
                     <br />
                     <div class="Value">${user.password}</div>
                     <br />
-                    <div class="Name">IsAdmin</div>
+                    <div class="Name">Role</div>
                     <br />
-                    <div class="Value">${user.isAdmin}</div>
+                    <div class="Value">${user.role}</div>
                     <br />
                     <div class="Value Button">
                         <a href="${pageContext.servletContext.contextPath}/Users/Edit.jsp?id=${user.id}">Edit</a>

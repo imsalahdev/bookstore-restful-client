@@ -1,8 +1,8 @@
 package dev.salah.services;
 
-import dev.salah.beans.Book;
-import dev.salah.beans.Cart;
-import dev.salah.beans.User;
+import dev.salah.ws.Book;
+import dev.salah.ws.Cart;
+import dev.salah.ws.User;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
@@ -37,15 +37,6 @@ public class CartWS {
         }
     }
 
-//    public static void create(Book book) {
-//        client.create(builder.toJson(book));
-//    }
-//
-//    public static List<Book> read() {
-//        return builder.fromJson(client.findAll(String.class), new ArrayList<Book>() {
-//        }.getClass().getGenericSuperclass());
-//    }
-//
     public static Cart read(String id) {
         return builder.fromJson(client.find(String.class, id), Cart.class);
     }
@@ -64,35 +55,14 @@ public class CartWS {
         client.removeByCart(uid.toString(), bid.toString());
     }
 
-//
-//    public static List<Book> read(List<String> ids) {
-//        List<Book> books = new ArrayList<Book>();
-//        for (String id : ids) {
-//            books.add(read(id));
-//        }
-//        return books;
-//    }
-//
-//    public static List<Book> readByCategoryID(Integer id) {
-//        List<Book> books = read();
-//        books.removeIf(book -> book.getCategoryID().getId() != id);
-//        return books;
-//    }
-//
-//    public static String count() {
-//        return client.countREST();
-//    }
-//
-//    public static void update(Book book) {
-//        client.edit(builder.toJson(book), String.valueOf(book.getId()));
-//    }
-//
-//    public static void delete(String id) {
-//        client.remove(id);
-//    }
     public static List<Cart> readByUserId(Integer userId) {
         return builder.fromJson(client.findByUserId(String.class, userId.toString()), new ArrayList<Cart>() {
         }.getClass().getGenericSuperclass());
+    }
+
+    public static void removeByUserID(Integer uid) {
+        System.out.println("FEFE ");
+        client.removeByUserID(String.valueOf(uid));
     }
 
     static class CartsFacadeREST_JerseyClient {
@@ -138,6 +108,10 @@ public class CartWS {
             webTarget.request(javax.ws.rs.core.MediaType.APPLICATION_JSON).post(javax.ws.rs.client.Entity.entity(requestEntity, javax.ws.rs.core.MediaType.APPLICATION_JSON));
         }
 
+        public void removeByUserID(String userId) throws ClientErrorException {
+            webTarget.path(java.text.MessageFormat.format("cart/{0}", new Object[]{userId})).request().delete();
+        }
+
         public void removeByCart(String userId, String bookId) throws ClientErrorException {
             webTarget.path(java.text.MessageFormat.format("cart/{0}/{1}", new Object[]{userId, bookId})).request().delete();
         }
@@ -161,5 +135,7 @@ public class CartWS {
             client.close();
         }
     }
+
+    
 
 }

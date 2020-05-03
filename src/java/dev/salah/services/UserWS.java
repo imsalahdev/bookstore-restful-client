@@ -1,9 +1,10 @@
 package dev.salah.services;
 
-import dev.salah.beans.User;
+import dev.salah.ws.User;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;
+import jakarta.json.bind.JsonbException;
 import jakarta.json.bind.config.BinaryDataStrategy;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,12 @@ public class UserWS {
     }
 
     public static User readByEmail(String email) {
-        return builder.fromJson(client.findByEmail(String.class, email), User.class);
+        try {
+            return builder.fromJson(client.findByEmail(String.class, email), User.class);
+        } catch (JsonbException e) {
+            return null;
+        }
+
     }
 
     public static void update(User user) {

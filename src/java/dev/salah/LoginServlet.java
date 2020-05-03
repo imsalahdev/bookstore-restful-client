@@ -1,12 +1,10 @@
 package dev.salah;
 
-import dev.salah.beans.User;
-import dev.salah.beans.Cart;
 import dev.salah.services.CartWS;
-import dev.salah.services.CategoryWS;
 import dev.salah.services.UserWS;
+import dev.salah.ws.Cart;
+import dev.salah.ws.User;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.ServletException;
@@ -17,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet(name = "LoginServlet", urlPatterns = {"/Login"})
 public class LoginServlet extends HttpServlet {
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -26,23 +24,6 @@ public class LoginServlet extends HttpServlet {
         User user = UserWS.readByEmail(email);
         if (user != null && Utils.verifyPassword(password, user.getPassword())) {
             request.getSession().setAttribute("user", user);
-
-//            // Cart Logic
-//            List<Cart> userCarts = CartWS.readByUserId(user.getId());
-//            List<Cart> carts = (List<Cart>) request.getSession().getAttribute("carts");
-//            if (carts == null) {
-//                carts = userCarts;
-//            } else {
-//                for (Cart cart : userCarts) {
-//                    if (!carts.contains(cart)) {
-//                        carts.add(cart);
-//                    }
-//                }
-//            }
-//            request.getSession().setAttribute("carts", carts);
-//            CartWS.create(carts);
-//            // Cart Logic END
-            // Cart Logic
             List<Cart> userCarts = CartWS.readByUserId(user.getId());
             List<String> cart = (List<String>) request.getSession().getAttribute("cart");
             if (cart == null) {
@@ -57,8 +38,6 @@ public class LoginServlet extends HttpServlet {
             }
             request.getSession().setAttribute("cart", cart);
             CartWS.create(user, cart);
-            // Cart Logic END
-
             response.sendRedirect(request.getServletContext().getContextPath());
         } else {
             response.sendRedirect(request.getServletContext().getContextPath() + "/Home/Login.jsp");

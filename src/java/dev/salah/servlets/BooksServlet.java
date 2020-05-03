@@ -1,12 +1,10 @@
 package dev.salah.servlets;
 
 import dev.salah.Utils;
-import dev.salah.beans.Book;
-import dev.salah.beans.Category;
 import dev.salah.services.BookWS;
 import dev.salah.services.CategoryWS;
+import dev.salah.ws.Book;
 import java.io.IOException;
-import java.io.InputStream;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -40,6 +38,7 @@ public class BooksServlet extends HttpServlet {
 
                 BookWS.create(book);
             } else {
+
                 Book book = BookWS.read(id);
                 book.setTitle(request.getParameter("title"));
                 book.setAuthor(request.getParameter("author"));
@@ -48,15 +47,15 @@ public class BooksServlet extends HttpServlet {
                 book.setCategoryID(CategoryWS.read(request.getParameter("categoryID")));
 
                 book.setPrice(Double.valueOf(request.getParameter("price")));
-
                 byte[] thumbnailBytes = Utils.resizeImage(request.getPart("thumbnail").getInputStream());
-                if (thumbnailBytes.length != 0) {
+                if (thumbnailBytes != null) {
                     book.setThumbnail(thumbnailBytes);
                 }
 
                 book.setCount(Integer.valueOf(request.getParameter("count")));
 
                 BookWS.update(book);
+                System.out.println("B");
             }
         } else if (method.equals("DELETE")) {
             BookWS.delete(id);

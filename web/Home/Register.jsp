@@ -1,3 +1,6 @@
+<%@page import="dev.salah.ws.User"%>
+<%@page import="dev.salah.Utils"%>
+<% Utils.markAsPublic(request, response); %>
 <%@page import="dev.salah.services.CategoryWS"%>
 <%
     session.setAttribute("title", "Register");
@@ -55,7 +58,7 @@
                             </div>
                         </li>
                     </ul>
-                    <c:if test="${user != null && user.isAdmin}">
+                    <c:if test="${ user != null && user.role == 'admin' }">
                         <ul class="navbar-nav mr-1">
                             <li class="nav-item">
                                 <a class="nav-link <%= isActive("Users Dashboard")%>" href="${pageContext.servletContext.contextPath}/Users">

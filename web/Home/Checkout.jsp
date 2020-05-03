@@ -1,8 +1,18 @@
+<%@page import="dev.salah.ws.User"%>
+<%@page import="dev.salah.ws.User"%>
+<%@page import="dev.salah.Utils"%>
 <%@page import="dev.salah.services.CategoryWS"%>
+<%@page import="dev.salah.services.CartWS"%>
 <%
     session.setAttribute("title", "Checkout");
     session.setAttribute("cart", null);
+    User user = (User) session.getAttribute("user");
+    if (user != null) {
+        CartWS.removeByUserID(user.getId());
+    }
 %>
+
+<% Utils.markAsPrivate(request, response);%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -13,7 +23,7 @@
     <head>
         <link rel="shortcut icon" type="image/png" href="${pageContext.servletContext.contextPath}/assets/favicon.png" />
         <meta name="viewport" content="width=device-width" />
-        <title><%= title %></title>
+        <title><%= title%></title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
         <link rel="stylesheet" href="../styles/Home/Checkout.css" />
     </head>
@@ -57,7 +67,7 @@
                             </div>
                         </li>
                     </ul>
-                    <c:if test="${user != null && user.isAdmin}">
+                    <c:if test="${ user != null && user.role == 'admin' }">
                         <ul class="navbar-nav mr-1">
                             <li class="nav-item">
                                 <a class="nav-link <%= isActive("Users Dashboard")%>" href="${pageContext.servletContext.contextPath}/Users">

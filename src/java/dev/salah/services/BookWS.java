@@ -1,6 +1,6 @@
 package dev.salah.services;
 
-import dev.salah.beans.Book;
+import dev.salah.ws.Book;
 import jakarta.json.bind.Jsonb;
 import jakarta.json.bind.JsonbBuilder;
 import jakarta.json.bind.JsonbConfig;

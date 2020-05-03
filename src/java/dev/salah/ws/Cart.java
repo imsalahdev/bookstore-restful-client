@@ -1,4 +1,4 @@
-package dev.salah.beans;
+package dev.salah.ws;
 
 import java.util.Objects;
 

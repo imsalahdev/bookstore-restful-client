@@ -1,48 +1,34 @@
 <%@page import="dev.salah.ws.User"%>
-<%@page import="dev.salah.Utils"%>
-<% Utils.markAsPrivate(request, response); %>
-<%@page import="dev.salah.ws.User"%>
-<%@page import="java.util.Base64"%>
 <%@page import="dev.salah.services.CategoryWS"%>
-<%
-    session.setAttribute("title", "ProfileDetails");
-%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+
+<%!
+    String title = "Error";
+
+    String isActive(String name) {
+        return title == name ? "active" : "";
+    }
+%>
 
 <!DOCTYPE html>
 <html>
     <head>
         <link rel="shortcut icon" type="image/png" href="${pageContext.servletContext.contextPath}/assets/favicon.png" />
         <meta name="viewport" content="width=device-width" />
-        <title><%= title %></title>
+        <title>${title}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="../styles/Home/ProfileDetails.css" />
+        <link rel="stylesheet" href="../styles/Home/Error.css" />
     </head>
     <body>
-        <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
-        <%!
-            String title;
-            User user;
-        %>
-        <%
-            title = (String) session.getAttribute("title");
-            user = (User) session.getAttribute("user");
-        %>
-        <%!
-            String isActive(String name) {
-                return title == name ? "active" : "";
-            }
-        %>
         <header>
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <a class="navbar-brand mb-0 h1" href="${pageContext.servletContext.contextPath}">Book Library</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item <%= isActive("Home")%>">
@@ -81,6 +67,7 @@
                             </li>
                         </ul>
                     </c:if>
+
                     <form class="custom-form custom-form-inline" action="${pageContext.servletContext.contextPath}/Home/Search.jsp" autocomplete="off">
                         <input class="custom-form-input" type="search" placeholder="Search" name="q" required>
                         <button class="custom-form-button" type="submit">Search</button>
@@ -123,28 +110,7 @@
             </nav>
         </header>
         <main>
-            <div class="container">
-                <div class="profile">
-                    <div class="Value Image">
-                        <img src="data:image/png;base64, <%= Base64.getEncoder().encodeToString((byte[]) user.getPhoto())%>" />
-                    </div>
-                    <div class="Name">Username</div>
-                    <br />
-                    <div class="Value">${user.username}</div>
-                    <br />
-                    <div class="Name">Email</div>
-                    <br />
-                    <div class="Value">${user.email}</div>
-                    <br />
-                    <div class="Name">Password</div>
-                    <br />
-                    <div class="Value">${user.password}</div>
-                    <br />
-                    <div class="Value Button">
-                        <a href="${pageContext.servletContext.contextPath}/Home/ProfileEdit.jsp">Edit</a>
-                    </div>
-                </div>
-            </div>
+            <div class="error">404</div>
         </main>
         <footer class="page-footer font-small blue pt-4">
             <div class="container-fluid text-center text-md-left">
@@ -152,10 +118,12 @@
                     <div class="col-md-6 mt-md-0 mt-3">
                         <h5 class="text-uppercase">Content</h5>
                         <p>Our aim is to provide the best books and customer service. With an experience of 15 years and more we can guarantee that we will make you happy.</p>
+
                     </div>
                     <hr class="clearfix w-100 d-md-none pb-3">
                     <div class="col-md-3 mb-md-0 mb-3">
                         <h5 class="text-uppercase">NAVIGATE</h5>
+
                         <ul class="list-unstyled">
                             <li>
                                 <a href="${pageContext.servletContext.contextPath}/">Home</a>
@@ -167,6 +135,7 @@
                                 <a href="${pageContext.servletContext.contextPath}/Home/Cart.jsp">Cart</a>
                             </li>
                         </ul>
+
                     </div>
                     <div class="col-md-3 mb-md-0 mb-3">
                         <h5 class="text-uppercase">Contact</h5>

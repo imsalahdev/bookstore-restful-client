@@ -1,3 +1,6 @@
+<%@page import="dev.salah.ws.User"%>
+<%@page import="dev.salah.Utils"%>
+<% Utils.markAsPrivate(request, response, true);%>
 <%@page import="dev.salah.services.CategoryWS"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -16,7 +19,7 @@
     <head>
         <link rel="shortcut icon" type="image/png" href="${pageContext.servletContext.contextPath}/assets/favicon.png" />
         <meta name="viewport" content="width=device-width" />
-        <title><%= title %></title>
+        <title><%= title%></title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
         <link rel="stylesheet" href="../styles/Users/Create.css" />
     </head>
@@ -47,7 +50,7 @@
                             </div>
                         </li>
                     </ul>
-                    <c:if test="${user != null && user.isAdmin}">
+                    <c:if test="${ user != null && user.role == 'admin' }">
                         <ul class="navbar-nav mr-1">
                             <li class="nav-item">
                                 <a class="nav-link <%= isActive("Users Dashboard")%>" href="${pageContext.servletContext.contextPath}/Users">
@@ -116,15 +119,7 @@
                     <input class="custom-form-input" type="text" name="username" placeholder="Username" required />
                     <input class="custom-form-input" type="email" name="email" placeholder="Email" required />
                     <input class="custom-form-input" type="password" name="password" placeholder="Password" required />
-
-                    <div class="custom-form-group">
-                        <div class="custom-form-group-title">IsAdmin</div>
-                        <div class="custom-form-checkbox">
-                            <input type="checkbox" name="isAdmin" />
-                            <div class="toggler"></div>
-                        </div>
-                    </div>
-
+                    <input class="custom-form-input" type="text" name="role" placeholder="Role" required />
                     <input type="file" name="photo" class="custom-form-file-input" required />
                     <button class="custom-form-button">Add</button>
                     <a class="custom-form-bottom-link" href="${pageContext.servletContext.contextPath}/Users">Go Back</a>
