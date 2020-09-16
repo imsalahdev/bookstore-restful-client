@@ -56,10 +56,7 @@ public class Cart {
         if (!Objects.equals(this.bookId, other.bookId)) {
             return false;
         }
-        if (!Objects.equals(this.userId, other.userId)) {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.userId, other.userId);
     }
 
 }

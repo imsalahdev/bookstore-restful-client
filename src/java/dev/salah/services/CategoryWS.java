@@ -1,7 +1,7 @@
 package dev.salah.services;
 
+import com.google.gson.Gson;
 import dev.salah.ws.Category;
-import jakarta.json.bind.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.ClientErrorException;
@@ -10,9 +10,9 @@ import javax.ws.rs.client.WebTarget;
 
 public class CategoryWS {
 
-    private static CategoriesFacadeREST_JerseyClient client = new CategoriesFacadeREST_JerseyClient();
-    private static Jsonb builder = JsonbBuilder.create();
-
+    private static final CategoriesFacadeREST_JerseyClient client = new CategoriesFacadeREST_JerseyClient();
+    private static final Gson builder = new Gson();
+    
     public static void create(Category category) {
         client.create(builder.toJson(category));
     }
@@ -40,8 +40,8 @@ public class CategoryWS {
 
     static class CategoriesFacadeREST_JerseyClient {
 
-        private WebTarget webTarget;
-        private Client client;
+        private final WebTarget webTarget;
+        private final Client client;
         private static final String BASE_URI = "http://localhost:8080/bookstore-restful-ws/webresources";
 
         public CategoriesFacadeREST_JerseyClient() {

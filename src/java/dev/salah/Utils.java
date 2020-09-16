@@ -25,7 +25,7 @@ public class Utils {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             ImageIO.write(Thumbnails.of(is).size(148, 188).asBufferedImage(), "png", baos);
             return baos.toByteArray();
-        } catch (Exception e) {
+        } catch (IOException e) {
             return null;
         }
     }

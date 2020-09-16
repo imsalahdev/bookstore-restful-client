@@ -1,13 +1,9 @@
 package dev.salah.services;
 
-import dev.salah.ws.Book;
+import com.google.gson.Gson;
 import dev.salah.ws.Cart;
 import dev.salah.ws.User;
-import jakarta.json.bind.Jsonb;
-import jakarta.json.bind.JsonbBuilder;
-import jakarta.json.bind.JsonbConfig;
-import jakarta.json.bind.JsonbException;
-import jakarta.json.bind.config.BinaryDataStrategy;
+import javax.json.bind.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.ClientErrorException;
@@ -16,10 +12,8 @@ import javax.ws.rs.client.WebTarget;
 
 public class CartWS {
 
-    private static CartsFacadeREST_JerseyClient client = new CartsFacadeREST_JerseyClient();
-    private static JsonbConfig config = new JsonbConfig()
-            .withBinaryDataStrategy(BinaryDataStrategy.BASE_64);
-    private static Jsonb builder = JsonbBuilder.create(config);
+    private static final CartsFacadeREST_JerseyClient client = new CartsFacadeREST_JerseyClient();
+    private static final Gson builder = new Gson();
 
     public static void create(Cart cart) {
         if (readByCart(cart.getUserId().getId(), cart.getBookId().getId()) == null) {
@@ -45,7 +39,6 @@ public class CartWS {
         try {
             return builder.fromJson(client.findByCart(String.class, uid.toString(), bid.toString()), Cart.class);
         } catch (JsonbException e) {
-            System.out.println("jsonb");
             return null;
         }
 
@@ -61,14 +54,13 @@ public class CartWS {
     }
 
     public static void removeByUserID(Integer uid) {
-        System.out.println("FEFE ");
         client.removeByUserID(String.valueOf(uid));
     }
 
     static class CartsFacadeREST_JerseyClient {
 
-        private WebTarget webTarget;
-        private Client client;
+        private final WebTarget webTarget;
+        private final Client client;
         private static final String BASE_URI = "http://localhost:8080/bookstore-restful-ws/webresources";
 
         public CartsFacadeREST_JerseyClient() {
@@ -135,7 +127,4 @@ public class CartWS {
             client.close();
         }
     }
-
-    
-
 }

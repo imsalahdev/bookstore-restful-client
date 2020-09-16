@@ -28,7 +28,7 @@ public class EditProfileServlet extends HttpServlet {
         }
 
         byte[] photoBytes = Utils.resizeImage(request.getPart("photo").getInputStream());
-        if (photoBytes.length != 0) {
+        if (photoBytes != null) {
             user.setPhoto(photoBytes);
         }
         UserWS.update(user);

@@ -1,11 +1,8 @@
 package dev.salah.services;
 
+import com.google.gson.Gson;
 import dev.salah.ws.User;
-import jakarta.json.bind.Jsonb;
-import jakarta.json.bind.JsonbBuilder;
-import jakarta.json.bind.JsonbConfig;
-import jakarta.json.bind.JsonbException;
-import jakarta.json.bind.config.BinaryDataStrategy;
+import javax.json.bind.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.ws.rs.ClientErrorException;
@@ -14,10 +11,8 @@ import javax.ws.rs.client.WebTarget;
 
 public class UserWS {
 
-    private static UsersFacadeREST_JerseyClient client = new UsersFacadeREST_JerseyClient();
-    private static JsonbConfig config = new JsonbConfig()
-            .withBinaryDataStrategy(BinaryDataStrategy.BASE_64);
-    private static Jsonb builder = JsonbBuilder.create(config);
+    private static final UsersFacadeREST_JerseyClient client = new UsersFacadeREST_JerseyClient();
+    private static final Gson builder = new Gson();
 
     public static void create(User user) {
         client.create(builder.toJson(user));
@@ -51,8 +46,8 @@ public class UserWS {
 
     static class UsersFacadeREST_JerseyClient {
 
-        private WebTarget webTarget;
-        private Client client;
+        private final WebTarget webTarget;
+        private final Client client;
         private static final String BASE_URI = "http://localhost:8080/bookstore-restful-ws/webresources";
 
         public UsersFacadeREST_JerseyClient() {
