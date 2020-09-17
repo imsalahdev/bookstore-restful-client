@@ -19,7 +19,7 @@
         <meta name="viewport" content="width=device-width" />
         <title>${title}</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="../styles/Home/Error.css" />
+        <link rel="stylesheet" href="${pageContext.servletContext.contextPath}/styles/Home/Error.css" />
     </head>
     <body>
         <header>

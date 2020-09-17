@@ -322,6 +322,8 @@ a .svg svg {
     height: 100%;
     display: inline-block;
     padding: 10px 20px;
+    border: none;
+    background: transparent;
 }
 
 .book-details .Button:hover {
